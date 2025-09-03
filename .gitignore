@@ -1,0 +1,22 @@
+# Virtual env
+env/
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Django
+*.log
+db.sqlite3
+media/
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# setup data
+management/
+data_product.json
