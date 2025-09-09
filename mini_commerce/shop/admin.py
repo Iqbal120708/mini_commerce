@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
-from .models import Product, Cart
+from .models import Product, Cart, Image
 from .forms import ProductForm
 
 class BaseModelAdmin(ModelAdmin):
@@ -12,8 +12,10 @@ class BaseModelAdmin(ModelAdmin):
 class ProductAdmin(BaseModelAdmin):
     form = ProductForm
     
-admin.site.register(Cart)
+
 class CartAdmin(BaseModelAdmin):
     pass
 
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Cart, CartAdmin)
+admin.site.register(Image, BaseModelAdmin)

@@ -39,22 +39,26 @@ class Product(BaseModel):
 
 class Cart(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    #quantity = models.IntegerField(default=1)
     
     def clean(self):
         errors = {}
 
         # stok habis
-        if self.product.quantity <= 0:
-            errors['product'] = "Produk ini sudah habis stoknya."
+        if self.product.stock <= 0:
+            errors['product'] = f"Produk '{self.product.name}' ini sudah habis stoknya."
 
         # jumlah dipesan lebih besar dari stok
-        if self.quantity > self.product.quantity:
-            errors['quantity'] = f"Stok hanya tersedia {self.product.quantity}."
+        # if self.quantity > self.product.quantity:
+        #     errors['quantity'] = f"Stok hanya tersedia {self.product.quantity}."
 
         if errors:
             raise ValidationError(errors)
 
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+        
     def __str__(self):
-        return f"{self.product.name} x {self.quantity}"
+        return f"{self.product.name}"
         

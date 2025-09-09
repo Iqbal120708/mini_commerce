@@ -1,0 +1,37 @@
+<header class="flex bg-primary p-2 justify-between items-center text-white">
+    <div>
+        <details class="dropdown">
+            <summary class="btn btn-ghost p-1">
+                {% include "icons/menu.html" %}
+            </summary>
+            <ul
+                class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+            >
+                <div class="py-1">
+                    {% if not request.user %}
+                    <li class="text-black active:text-white">
+                        <a>Register</a>
+                    </li>
+                    <li class="text-black active:text-white"><a>Login</a></li>
+                    {% else %}
+                    <li class="text-black active:text-white">
+                        <a href="">Log out</a>
+                    </li>
+                    {% endif %}
+                </div>
+                <div class="border-t-1 border-gray-600 py-1">
+                    <li class="text-black active:text-white">
+                        <a href="">Home</a>
+                    </li>
+                    {% if request.user.is_superuser %}
+                    <li class="text-black active:text-white">
+                        <a href="{% url 'admin:index' %}">Admin Page</a>
+                    </li>
+                    {% endif %}
+                </div>
+            </ul>
+        </details>
+    </div>
+    <h3 class="text-2xl">Shop</h3>
+    <a href="{% url 'cart_list' %}">{% include "icons/cart.html" %}</a>
+</header>
