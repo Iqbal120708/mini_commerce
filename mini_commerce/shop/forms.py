@@ -52,13 +52,3 @@ class ProductForm(forms.ModelForm):
             product.save()
         return product
         
-class CartItemForm(forms.Form):
-    cart_id = forms.IntegerField(widget=forms.HiddenInput())
-    selected = forms.BooleanField(required=False)
-    quantity = forms.IntegerField(min_value=1, initial=True)
-
-    def __init__(self, *args, **kwargs):
-        cart_obj = kwargs.pop("cart_obj", None)
-        super().__init__(*args, **kwargs)
-        if cart_obj:
-            self.fields["cart_id"].initial = cart_obj.id

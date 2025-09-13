@@ -5,6 +5,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.db import transaction
+from django.db.models import F
 
 def product_list(request):
     products = Product.objects.all().order_by("-created_at")
@@ -74,10 +76,48 @@ def add_to_cart(request):
     return redirect("product_list")
 
 @login_required
+@transaction.atomic
 def cart_list(request):
     cart_list = Cart.objects.filter(user=request.user).order_by("-created_at")
 
+    if request.method == "POST":
+        selected_ids = request.POST.getlist("selected[]")
+        if not selected_ids:
+            messages.error(request, "Tidak ada item yang dipilih")
+            return redirect("cart_list")
+    
+        errors = []
+        for selected_id in selected_ids:
+            cart = cart_list.filter(id=selected_id).first()
+            if not cart:
+                errors.append("Item keranjang tidak ditemukan")
+                continue
+
+            try:
+                qty = int(request.POST.get(f"qty_{selected_id}", 0))
+                if qty < 1:
+                    errors.append(f"Jumlah pembelian {cart.product.name} minimal 1")
+                    continue
+            except (TypeError, ValueError):
+                errors.append(f"Jumlah pembelian {cart.product.name} tidak valid")
+                continue
+
+            updated = Product.objects.filter(
+                id=cart.product.id, stock__gte=qty
+            ).update(stock=F("stock") - qty)
+            if not updated:
+                errors.append(f"Stok {cart.product.name} tidak mencukupi")
+                continue
+
+        if errors:
+            for err in errors:
+                messages.error(request, err)
+        else:
+            messages.success(request, "Pesanan berhasil diproses")
+
+        return redirect("cart_list")
+
     return render(request, "shop/cart_list.html", {
         "cart_list": cart_list,
-        "MEDIA_URL": settings.MEDIA_URL
+        "MEDIA_URL": settings.MEDIA_URL,
     })

@@ -8,11 +8,11 @@
                 class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
             >
                 <div class="py-1">
-                    {% if not request.user %}
+                    {% if not request.user.is_authenticated %}
                     <li class="text-black active:text-white">
                         <a>Register</a>
                     </li>
-                    <li class="text-black active:text-white"><a>Login</a></li>
+                    <li class="text-black active:text-white"><a href="{% url 'login' %}">Login</a></li>
                     {% else %}
                     <li class="text-black active:text-white">
                         <a href="">Log out</a>
