@@ -2,7 +2,10 @@
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 {% endblock script %} {% block content %} {% include "shop/header.html" %}
 <main>
-    {% include "shop/alert.html" %}
+    <div class="w-[80%]">
+        
+    {% include "alert.html" %}
+    </div>
     <form method="post" x-data="{ total: 0 }">
         {% csrf_token %} {% for cart in cart_list %}
         <section

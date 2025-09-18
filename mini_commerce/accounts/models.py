@@ -10,8 +10,8 @@ class UserDeleteWarning(Warning):
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
-    
-    USERNAME_FIELD = "email"   # login pakai email
+
+    USERNAME_FIELD = "email"  # login pakai email
     REQUIRED_FIELDS = ["username"]  # username masih ada, tapi bukan buat login
 
     def __str__(self):

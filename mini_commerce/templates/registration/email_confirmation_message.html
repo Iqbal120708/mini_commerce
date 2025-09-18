@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="card bg-white shadow-xl w-full max-w-md">
+    <div class="card-body p-8">
+      <h2 class="text-2xl font-semibold text-blue-600">Konfirmasi Email</h2>
+
+      <p class="mt-4 text-gray-700">
+        Terima kasih sudah mendaftar.
+        Silakan cek email Anda untuk mengaktifkan akun.
+      </p>
+
+      <div class="card-actions mt-6 flex gap-2">
+        <!-- Tombol kembali ke login -->
+        <a href="{% url 'login' %}"
+           class="btn bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+          Kembali ke Login
+        </a>
+
+      <p class="mt-4 text-sm text-gray-500">
+        Tidak menerima email? Cek folder spam.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

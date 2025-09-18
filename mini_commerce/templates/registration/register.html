@@ -1,10 +1,7 @@
-{% extends "base.html" %} {% load widget_tweaks %} 
-{% block content %}
-{# Username form login ini adalah email #}
-
+{% extends "base.html" %} {% load widget_tweaks %} {% block content %}
 <div class="flex items-center justify-center min-h-screen">
     <div class="rounded shadow-2xl p-6 bg-white">
-        <h2 class="text-xl font-bold mb-4 text-blue-600">Login</h2>
+        <h2 class="text-xl font-bold mb-4 text-blue-600">Sign Up</h2>
         <form method="post" class="space-y-4">
             {% csrf_token %}
             <div class="mb-4">
@@ -13,6 +10,35 @@
                     class="block mb-1 text-sm text-gray-700 font-medium"
                 >
                     {{ form.username.label }}
+                </label>
+                <label class="input validator">
+                    <svg
+                        class="h-[1em] opacity-50"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                    >
+                        <g
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            stroke-width="2.5"
+                            fill="none"
+                            stroke="currentColor"
+                        >
+                            <path
+                                d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                            ></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </g>
+                    </svg>
+                    {{ form.username }}
+                </label>
+            </div>
+            <div class="mb-4">
+                <label
+                    for="{{ form.username.id_for_label }}"
+                    class="block mb-1 text-sm text-gray-700 font-medium"
+                >
+                    {{ form.email.label }}
                 </label>
                 <label class="input validator">
                     <svg
@@ -39,7 +65,7 @@
                             ></path>
                         </g>
                     </svg>
-                    {{ form.username|attr:"placeholder:mail@site.com" }}
+                    {{ form.email|attr:"placeholder:mail@site.com" }}
                 </label>
                 <div class="validator-hint hidden">
                     Enter valid email address
@@ -50,7 +76,7 @@
                     for="{{ form.password.id_for_label }}"
                     class="block mb-1 text-sm text-gray-700 font-medium"
                 >
-                    {{ form.password.label }}
+                    {{ form.password1.label }}
                 </label>
                 <label class="input validator">
                     <svg
@@ -76,24 +102,54 @@
                             ></circle>
                         </g>
                     </svg>
-                    {{ form.password }}
+                    {{ form.password1 }}
+                </label>
+            </div>
+            <div class="mb-4">
+                <label
+                    for="{{ form.password.id_for_label }}"
+                    class="block mb-1 text-sm text-gray-700 font-medium"
+                >
+                    {{ form.password2.label }}
+                </label>
+                <label class="input validator">
+                    <svg
+                        class="h-[1em] opacity-50"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                    >
+                        <g
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            stroke-width="2.5"
+                            fill="none"
+                            stroke="currentColor"
+                        >
+                            <path
+                                d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+                            ></path>
+                            <circle
+                                cx="16.5"
+                                cy="7.5"
+                                r=".5"
+                                fill="currentColor"
+                            ></circle>
+                        </g>
+                    </svg>
+                    {{ form.password2 }}
                 </label>
             </div>
             <div class="mt-2 my-2">{% include "alert.html" %}</div>
-
             <div class="flex justify-around items-center">
                 <button
                     type="submit"
                     class="px-4 py-2 bg-blue-600 text-white rounded"
                 >
-                    Login
+                    Register
                 </button>
-                <a href="{% url 'register' %}" class="btn btn-link btn-sm"
-                    >Buat akun</a
+                <a href="{% url 'login' %}" class="btn btn-link btn-sm"
+                    >Sudah punya akun? Masuk</a
                 >
-            </div>
-            <div class="my-2 flex justify-center items-center">
-                <a href="{% url 'password_reset' %}" class="btn btn-link btn-sm">Lupa Password</a>
             </div>
             <input type="hidden" name="next" value="{{ next }}" />
         </form>

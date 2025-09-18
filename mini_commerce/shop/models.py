@@ -1,8 +1,10 @@
+import os
+
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.timezone import now
-from django.core.exceptions import ValidationError
-import os
+
 User = get_user_model()
 
 
@@ -20,13 +22,15 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-        
+
+
 class Image(BaseModel):
     path = models.CharField(max_length=255)
-    
+
     def __str__(self):
         return os.path.basename(self.path)
-        
+
+
 class Product(BaseModel):
     name = models.CharField(max_length=255)
     desc = models.TextField(blank=True, null=True)
@@ -37,16 +41,17 @@ class Product(BaseModel):
     def __str__(self):
         return self.name
 
+
 class Cart(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    #quantity = models.IntegerField(default=1)
-    
+    # quantity = models.IntegerField(default=1)
+
     def clean(self):
         errors = {}
 
         # stok habis
         if self.product.stock <= 0:
-            errors['product'] = f"Produk '{self.product.name}' ini sudah habis stoknya."
+            errors["product"] = f"Produk '{self.product.name}' ini sudah habis stoknya."
 
         # jumlah dipesan lebih besar dari stok
         # if self.quantity > self.product.quantity:
@@ -58,7 +63,6 @@ class Cart(BaseModel):
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
-        
+
     def __str__(self):
         return f"{self.product.name}"
-        

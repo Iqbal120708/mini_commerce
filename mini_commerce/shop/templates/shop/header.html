@@ -12,16 +12,21 @@
                     <li class="text-black active:text-white">
                         <a>Register</a>
                     </li>
-                    <li class="text-black active:text-white"><a href="{% url 'login' %}">Login</a></li>
+                    <li class="text-black active:text-white">
+                        <a href="{% url 'login' %}">Login</a>
+                    </li>
                     {% else %}
                     <li class="text-black active:text-white">
-                        <a href="">Log out</a>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
                     </li>
                     {% endif %}
                 </div>
                 <div class="border-t-1 border-gray-600 py-1">
                     <li class="text-black active:text-white">
-                        <a href="">Home</a>
+                        <a href="{% url 'product_list' %}">Home</a>
                     </li>
                     {% if request.user.is_superuser %}
                     <li class="text-black active:text-white">
